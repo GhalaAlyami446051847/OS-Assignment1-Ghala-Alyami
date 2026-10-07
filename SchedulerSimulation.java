@@ -152,6 +152,7 @@ class Process implements Runnable {
 }
 
 public class SchedulerSimulation {
+     private static int contextSwitches = 0;  // Feature 2 Count simulated scheduler dispatches
     public static void main(String[] args) {
         // ⚠️ IMPORTANT: Put your student ID here to seed the random number generator
         // This makes your output unique to you - DO NOT forget to change this!
@@ -245,10 +246,11 @@ public class SchedulerSimulation {
             System.out.println(Colors.BOLD + Colors.MAGENTA + "└" + "─".repeat(79) + Colors.RESET + "\n");
             
             // Start the thread, which will run the process for one time quantum
+            contextSwitches++; // Feature 2 Count each new thread dispatch before it starts
             currentThread.start();
             
             try {
-                // Wait for the thread to finish its time quantum before continuing to the next process
+                // Wait for the thread to finish its time quantum before continuing to the next process    
                 currentThread.join();
             } catch (InterruptedException e) {
                 System.out.println("Main thread interrupted.");
@@ -284,6 +286,7 @@ public class SchedulerSimulation {
         System.out.println(Colors.BOLD + Colors.BRIGHT_GREEN + 
                           "╚════════════════════════════════════════════════════════════════════════════════╝" + 
                           Colors.RESET + "\n");
+        System.out.println("Total context switches: " + contextSwitches);   // Feature 2 Display the total dispatch count required by the assignment                 
     }
     
     // Method to add a process to the queue and map, while printing a "ready" message
