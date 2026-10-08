@@ -129,81 +129,94 @@
 
 ## Your Development Log
 
-### Entry 1 - [Date and Time]
-**What I did**:
+### Entry 1 - [October 5, 2026, 10:52 PM]
+**What I did**:I used my student ID to customize the simulation.
 
 **Details**:
+- In SchedulerSimulation.java, set studentID to 446051847.
+- This ID served as the initial Random generator's seed.
+- 12 processes are displayed in the provided output.
 
-**Challenges**:
+**Challenges**:Adding new features while maintaining reproducibility in the simulation parameters is a challenge.
 
-**Solution**:
 
-**Time spent**:
+**Solution**:The original student-ID-based generator for the time quantum, number of processes, and burst times was retained as the solution.
+
+**Time spent**:30 minutes
 
 ---
 
-### Entry 2 - [Date and Time]
-**What I did**:
+### Entry 2 - [October 7, 2026, 6:39 PM]
+**What I did**:The process-priority feature was added.
 
 **Details**:
+- Added the setPriority() and getPriority() methods, as well as the priority field, to Process.
+- A priority was established.Use the seed studentID + 1L at random.
+- 1 + priorityRandom.nextInt(10) was used to assign priorities.
+- Priority was printed each time a process joined the ready queue.
+- FIFO ordering was maintained; scheduling order is not altered by priority. 
 
-**Challenges**:
+**Challenges**:Creating priorities without altering the Round-Robin queue order or current burst times is a challenge.
 
-**Solution**:
 
-**Time spent**:
+**Solution**:The solution was to keep the LinkedList-based FIFO queue while using a different random generator for priorities.
+
+
+**Time spent**:45 minutes
 
 ---
 
-### Entry 3 - [Date and Time]
-**What I did**:
+### Entry 3 - [October 7, 2026, 10:08 PM]
+**What I did**:To imitate context shifts, I added a counter.
+
 
 **Details**:
+- SchedulerSimulation now has a private static int contextSwitches = 0.
+- It was promptly increased before to each current thread.call to start().
+- After the simulation was finished, the counter was printed.
+- The output that was provided reports 28, which corresponds to the 28 worker execution turns.
 
-**Challenges**:
+**Challenges**:Determining precisely which scheduling events the counter reflects is one of the challenges.
 
-**Solution**:
+**Solution**:The solution was to count every worker dispatch, including the initial dispatch, and record this practice in the code comments.
 
-**Time spent**:
+**Time spent**:25 minutes
 
 ---
 
-### Entry 4 - [Date and Time]
-**What I did**:
+### Entry 4 - [October 8, 2026, 1:28 AM]
+**What I did**:I added the final timing table and cumulative waiting-time tracking.
 
 **Details**:
+- CreationTime, queueEntryTime, waitingTime, and firstQueueEntry were added to Process.
+- To determine the start of each waiting interval, recordQueueEntry() was utilized.
+- Prior to initiating a worker, recordDispatch() was called in order to accumulate the worker's waiting interval.
+- GetWaitingTime() and getTurnaroundTime() were added.
+- One summary row was printed for each process, and each process was stored once in allProcesses.
+  
+**Challenges**:Waiting after re-queueing and preventing duplicate summary rows for processes that use multiple worker threads are two challenges.
 
-**Challenges**:
+**Solution**:The final table was created by adding up each queue-waiting interval and using allProcesses instead of the thread map.
 
-**Solution**:
-
-**Time spent**:
+**Time spent**:70 minutes
 
 ---
 
-### Entry 5 - [Date and Time]
-**What I did**:
+### Entry 5 - [October 8, 2026, 1:30 AM]
+**What I did**:The modified simulation was run, and the final console output was obtained.
 
 **Details**:
+- Priorities, a final dispatch count of 28, and a timing table for each of the 12 processes are displayed in the output.
+- P1 has a burst time of 10200 ms and a priority of 5.
+- Following its initial insertion, P1 runs for 5000, 5000, and 200 ms with two re-queues.
+- According to the table, P1 had a turnaround time of 99399 ms and was waiting for 89199 ms.
+- Every process includes a completion message in the output that is provided.
 
-**Challenges**:
+**Challenges**:One of the challenges is separating measured waiting times, which can vary between runs, from reproducible simulation inputs.
 
-**Solution**:
+**Solution**:The solution was to keep wall-clock measurements for waiting time and use the actual recorded output for numerical examples.
 
-**Time spent**:
-
----
-
-### Entry 6 - [Optional - Date and Time]
-**What I did**:
-
-**Details**:
-
-**Challenges**:
-
-**Solution**:
-
-**Time spent**:
+**Time spent**:25 minutes
 
 ---
 
@@ -211,13 +224,13 @@
 
 > 💡 **TIP:** Fill this in **last**, after all entries are written.
 
-**Total time spent on assignment**: [X hours]
+**Total time spent on assignment**: [3 hours 15 minutes]
 
-**Most challenging part**:
+**Most challenging part**:Confirm whether this matches your experience
 
-**Most interesting learning**:
+**Most interesting learning**:Confirm whether this matches your experience
 
-**What I would do differently next time**:
+**What I would do differently next time**:Confirm whether this matches your experience
 
 ---
 
