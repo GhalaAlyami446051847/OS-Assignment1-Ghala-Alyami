@@ -250,7 +250,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[I discovered that the work that a Java thread can perform is defined by implementing Runnable. The Process class in this simulation implements Runnable, and addProcessToQueue() uses new Thread(process) to create a worker. While calling run() directly would execute the method on the calling thread, calling start() schedules that worker to execute run(). In order for the main thread to wait for the current worker to finish before choosing another process, the scheduler calls join(). Instead of carrying out CPU-intensive tasks, Thread.sleep() inside run() simulates elapsed execution time. Additionally, I discovered that when a worker thread in a simulated process ends, another thread is created for the process's subsequent turn.]
 
 ## Question 2: What was the most challenging part of this assignment?
 
@@ -258,7 +258,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[Differentiating between the simulated Process object and the Java thread that runs it was the idea that I found most difficult. In between scheduling turns, the Process object maintains its remainingTime. Nevertheless, each worker thread only calls run() once before ending. This indicates that there isn't a worker thread that runs continuously in an incomplete operation. P1 requires three execution turns in the given output, despite the fact that each turn makes use of a separate Java thread. Knowing this difference made it easier for me to understand why, each time a process is re-queued, addProcessToQueue() generates a new thread.]
 
 ## Question 3: How did you overcome the challenges you faced?
 
@@ -266,7 +266,7 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[By dividing the code into manageable chunks and attempting to comprehend each one independently, I was able to overcome the difficulties. I reviewed the assignment instructions and compared them with the code whenever something was unclear. To check what transpired after each move, I followed P1 in the output. This made it easier for me to understand why it went back to the line twice before it was done. I also reviewed the explanations against my code and requested for assistance with the bits I didn't understand. The assignment was simpler to comprehend when it was done step-by-step.]
 
 ## Question 4: How can you apply multithreading concepts in real-world applications?
 
@@ -274,19 +274,19 @@
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[Applications that use multithreading can maintain a responsive user interface while background processing is ongoing. A background thread can be used by a music player to load audio while user input is handled by the interface. Multiple requests can be handled by a server using worker threads, albeit the server design determines the scheduling policy. Because distinct threads carry out specified tasks and may exchange application data, these instances relate to the assignment. A responsive interface, in contrast to this simulation, should call join() on its interface thread without waiting for each background process. When several threads access shared changeable data, real applications also require proper synchronization.]
 
 ### Optional: What would you like to learn more about?
 
-[Any topics related to threading or operating systems that you're curious about?]
+[I want to know more about thread pools, locks, race situations, and synchronized blocks. Additionally, I want to look into how responsiveness and scheduling overhead are impacted by the time quantum and compare Round-Robin with priority scheduling.]
 
 ### Optional: How confident do you feel about multithreading concepts now?
 
-[Beginner / Intermediate / Confident. What do you understand well? What needs more practice?]
+[Intermediate, based on what I now understand. I am able to describe Runnable, join(), sleep(), and the distinction between a worker thread and a simulated process. I still need to practice synchronization and apps that require multiple workers to operate simultaneously.]
 
 ### Optional: Feedback on the assignment
 
-[Any comments? Was it helpful? Too easy or hard? Suggestions?]
+[The simulation offers a helpful link between ideas of operating-system scheduling and Java threading. The scheduling sequence is simpler to follow thanks to the ready queue and remaining-time output. Before executing a larger simulation, students could verify waiting-time calculations using a tiny deterministic example.]
 
 ---
 
