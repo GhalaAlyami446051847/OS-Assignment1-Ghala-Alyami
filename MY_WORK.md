@@ -306,7 +306,7 @@
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[While threads inside a single process share memory and resources, a genuine operating system process often has its own virtual address space. In general, the overhead of constructing threads is lower than that of creating distinct processes, and threads can communicate via shared objects instead of requiring inter-process communication. The Process class in SchedulerSimulation.java represents a simulated scheduling task rather than a distinct operating-system process. A genuine Java thread that accesses the same Process object and its remainingTime field is created by the addProcessToQueue() statement new Thread(process). Therefore, without starting separate applications, threads allow the program to exhibit task execution and coordination within a single JVM.]
 
 ## Question 2: Ready Queue Behavior
 
@@ -318,15 +318,29 @@
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[A process moves back to the end of the ready queue so that other processes can take their turns if it does not complete within its time quantum. P1 in my output has a time quantum of 5000 ms, a burst time of 10200 ms, and a priority of 5. The output indicates 5200 ms left after the first 5000 ms turn, and 200 ms left after the second 5000 ms turn. Following its first insertion, P1 is re-queued twice before finishing on its third 200-millisecond turn. This is reasonable since the other waiting processes can operate in between P1's turns rather than having to wait for all 10200 ms of its job to be completed before continuing.]
 
 Example from my output:
 ```
-[Paste a relevant snippet from your program output here showing a process being re-queued]
+[➕ P1 added to ready queue │ Burst time: 10200ms
+     P1 (Priority: 5) enters the ready queue.
+  ▶ P1 executing quantum [5000ms]
+     Remaining time: 5200ms
+  ↻ P1 yields CPU for context switch
+  ➕ P1 added to ready queue │ Burst time: 10200ms
+     P1 (Priority: 5) enters the ready queue.
+  ▶ P1 executing quantum [5000ms]
+     Remaining time: 200ms
+  ↻ P1 yields CPU for context switch
+  ➕ P1 added to ready queue │ Burst time: 10200ms
+     P1 (Priority: 5) enters the ready queue.
+  ▶ P1 executing quantum [200ms]
+     Remaining time: 0ms
+  ✓ P1 finished execution!]
 ```
 
 **Explanation of example:**
-[Explain what is happening in the output snippet you pasted.]
+[One original insertion and two re-queues are represented by the three "added to ready queue" notifications. The remaining time drops to 5200 ms, 200 ms, and finally 0 ms, but the burst time remains at 10200 ms since that is the initial total. The execution turns of other processes between these chosen P1 lines are included in the complete output.]
 
 ## Question 3: Thread Lifecycle
 
@@ -336,15 +350,15 @@ Example from my output:
 
 **Your Answer:** *(3-5 sentences overall; one short explanation per state)*
 
-1. **New**: [When is P1 in the New state?]
+1. **New**: [P1's first worker is created by new Thread(process) in addProcessToQueue() , before the initial output messages P1 added to ready queue │ Burst time: 10200ms and P1 (Priority: 5) enters the ready queue. , and it has not started yet.]
 
-2. **Runnable**: [When does P1 become Runnable?]
+2. **Runnable**: [currentThread.start()  makes P1's worker eligible to execute  run()  before it prints P1 executing quantum [5000ms].]
 
-3. **Running**: [When is P1 Running?]
+3. **Running**: [P1's worker executes run() during that first 5000ms turn, which produces the 49% overall-progress message and Remaining time: 5200ms, although Java uses RUNNABLE for both ready-to-run and executing threads.]
 
-4. **Waiting**: [When and why would a thread be Waiting?]
+4. **Waiting**: [During that turn, P1's worker calls Thread.sleep(stepTime) between quantum-progress updates and enters TIMED_WAITING, while the main thread waits in currentThread.join() for the worker to finish.]
 
-5. **Terminated**: [When is P1 Terminated?]
+5. **Terminated**: [P1's first worker terminates when run() returns with 5200ms remaining, and newly created workers handle the later 5000ms and 200ms turns until the output shows Remaining time: 0ms and P1 finished execution!.]
 
 ## Question 4: Real-World Applications
 
@@ -354,32 +368,32 @@ Example from my output:
 
 **Your Answer:** *(3-5 sentences per example)*
 
-### Example 1 (operating-system level): [Name of scenario]
+### Example 1 (operating-system level): [Time sharing among equal-priority runnable threads]
 
 **Description**:
-[Describe the real-world scenario.]
+[To allocate CPU time across runnable threads with equal scheduling priority, an operating system can employ a Round-Robin policy. The scheduler assigns a time quantum to each runnable thread, which represents a simulated process in the assignment, before another eligible thread may take a turn.]
 
 **Why Round-Robin works well here**:
-[Fairness, responsiveness, predictability?]
+[Moving a thread behind its peers promotes responsiveness and equitable access if it is still runnable after its quantum. While the assignment uses sequential worker execution to demonstrate that transition, a genuine context switch preserves and restores execution information when the CPU switches threads. This is not an assertion that all operating systems employ pure Round-Robin for all programs; rather, it is an illustration of an appropriate scheduling policy.]
 
-### Example 2: [Name of application/scenario]
+### Example 2: [Incremental background jobs in a desktop application]
 
 **Description**:
-[Describe the real-world scenario or application.]
+[A desktop program might use a cooperative Round-Robin queue to handle numerous separate background tasks, such creating previews for several files. In accordance with the simulated process and its time quantum, each job would complete a limited amount of work each turn.]
 
 **Why Round-Robin works well here**:
-[Fairness, responsiveness, predictability?]
+[In order for other jobs to advance, an incomplete job would go back to the back of the queue. While changing jobs may not always result in an instantaneous operating-system context switch, it does correspond to a logical scheduling change. If the jobs work together and the UI thread is still available to handle interaction, this architecture may increase responsiveness.]
 
 ## Summary
 
 **Key concepts I understood through these questions:**
-1.
-2.
-3.
+1. An operating-system process, a simulated Process object, and a Java Thread are separate entities; the same simulated process can use several subsequent workers.
+2. Round-Robin distributes execution equitably across waiting jobs using a FIFO ready queue and constrained turns.
+3. Different aspects of the thread lifecycle are impacted by start(), join(), and sleep(), and worker termination does not always imply simulated-process conclusion.
 
 **Concepts I need to study more:**
-1.
-2.
+1. During concurrent execution, synchronization, race situations, and secure access to shared mutable data.
+2. How response time, waiting time, and throughput are affected by time-quantum size and genuine context-switch overhead.
 
 ---
 
